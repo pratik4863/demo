@@ -1,0 +1,26 @@
+pipeline {
+    agent any
+
+      stages {
+        stage('Checkout Code') {
+            steps {
+                git changelog: false, poll: false, url: 'https://github.com/iamdevopstrainer/DevOpsClassCodes'
+            }
+        }
+	stage('Compile') {
+            steps {
+                sh '/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/myMaven/bin/mvn compile'
+            }
+        }
+	stage('Test') {
+            steps {
+                sh '/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/myMaven/bin/mvn test'
+            }
+        }
+	stage('Package') {
+            steps {
+                sh '/var/lib/jenkins/tools/hudson.tasks.Maven_MavenInstallation/myMaven/bin/mvn package'
+            }
+        }
+    }
+}
